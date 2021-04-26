@@ -224,6 +224,8 @@ routerWeb.post("/update_product", uploadDefault.single("file"), (req, res) => {
       $set: {
         name: req.body.name,
         price: req.body.price,
+        amount:req.body.amount,
+        size:req.body.size,
         description: req.body.description,
         image: image,
         cateId: req.body.cateId,
@@ -234,6 +236,20 @@ routerWeb.post("/update_product", uploadDefault.single("file"), (req, res) => {
         res.redirect("/index");
       } else {
         console.log("Edit Failed");
+      }
+    }
+  );
+  Statistic.updateOne(
+    { productId: req.body.productId },
+    {
+      $set: {
+        amount:Number(req.body.amount),
+      },
+    },
+    (err, doc) => {
+      if (!err) {
+      } else {
+        console.log("Edit Failed" + err.message);
       }
     }
   );

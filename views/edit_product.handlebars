@@ -112,11 +112,13 @@
                     >
                         <h4>Thêm sản phẩm</h4>
                         <div class="form-group">
-                            <label>Mã sản phẩm:</label>
-                            <input type="hidden" name="id" class="form-control" placeholder="Nhập Mã sản phẩm"
+                            {{!-- <label>Mã sản phẩm:</label> --}}
+                            <input type="hidden" name="id" class="form-control" readonly placeholder="Nhập Mã sản phẩm"
                                    value="{{product._id}}" required="">
 
                         </div>
+                         <input type="hidden" name="productId" class="form-control" readonly placeholder="Nhập Mã sản phẩm"
+                                   value="{{product.productId}}" required="">
                         <div class="form-group">
                             <label>Tên sản phẩm:</label>
                             <input type="phone" class="form-control" name="name" placeholder="Nhập Tên sản phẩm"
@@ -128,6 +130,20 @@
                             <label>Giá sản phẩm:</label>
                             <input type="phone" class="form-control" name="price" placeholder="Nhập Giá sản phẩm"
                                    value="{{product.price}}" required>
+                            <div class="valid-feedback">Ok.</div>
+                            <div class="invalid-feedback">Nhập lại</div>
+                        </div>
+                         <div class="form-group">
+                            <label>Số lượng sản phẩm:</label>
+                            <input type="phone" class="form-control" name="amount" placeholder="Nhập số lượng sản phẩm"
+                                   value="{{product.amount}}" required>
+                            <div class="valid-feedback">Ok.</div>
+                            <div class="invalid-feedback">Nhập lại</div>
+                        </div>
+                         <div class="form-group">
+                            <label>Size sản phẩm:</label>
+                            <input type="phone" class="form-control" name="size" placeholder="Nhập size sản phẩm"
+                                   value="{{product.size}}" required>
                             <div class="valid-feedback">Ok.</div>
                             <div class="invalid-feedback">Nhập lại</div>
                         </div>
