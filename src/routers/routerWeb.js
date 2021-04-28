@@ -110,6 +110,19 @@ routerWeb.post("/create_gift", (req, res1) => {
 routerWeb.get("/edit_product/:id", abc.getProduct);
 routerWeb.get("/edit_cate/:id", abc.getCate);
 
+
+routerWeb.get("/deletesp/:id", async (req, res) => {
+  try {
+    const stt = await Orders.findByIdAndDelete(req.params.id);
+    let sanpham = await Orders.find({});
+    try {
+      res.redirect("/list_order")
+    } catch (e) {
+      res.send("co loi xay ra", e.message);
+    }
+  } catch (e) {}
+});
+
 routerWeb.get("/statistical", async (req, res) => {
   const product = await products.find({}).lean();
   let name = "";
