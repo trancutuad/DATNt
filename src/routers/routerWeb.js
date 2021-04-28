@@ -126,9 +126,15 @@ routerWeb.get("/deletesp/:id", async (req, res) => {
 routerWeb.get("/statistical", async (req, res) => {
   const product = await products.find({}).lean();
   let name = "";
+
   product.forEach(async (item, index, array) => {
-    let dem = await OrderDetail.find({ productId: item.productId }).count();
-    name = item.name;
+    let od = await OrderDetail.find({ productId: item.productId });
+    let dem = 0;
+    od.forEach((item1, index1) => {
+      dem = dem + Number(item1.amount);
+      console.log(index1 + item1);
+    });
+
     Statistic.updateOne(
       { productId: item.productId },
       {
@@ -139,6 +145,7 @@ routerWeb.get("/statistical", async (req, res) => {
       },
       (err, doc) => {
         if (!err) {
+          console.log(dem);
         } else {
           console.log("Edit Failed" + err.message);
         }
@@ -147,8 +154,6 @@ routerWeb.get("/statistical", async (req, res) => {
   });
   const statistic = await Statistic.find({}).lean();
   res.render("statistical", { statistic: statistic });
-  console.log(statistic);
-  //   console.log(orderDetail[0]._id);
 });
 
 routerWeb.get("/remove", async (req, res) => {
