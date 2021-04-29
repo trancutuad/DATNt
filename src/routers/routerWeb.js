@@ -59,6 +59,7 @@ routerWeb.get("/index", abc.getAllProduct);
 routerWeb.get("/delete_product/:id", abc.deleteProduct);
 routerWeb.get("/delete_cate/:id", abc.deleteCate);
 routerWeb.get("/delete_gift/:id", abc.deleteGift);
+routerWeb.get("/delete_users/:id", abc.deleteUser);
 routerWeb.post("/accept_order-details", (req, res1) => {
   console.log("dfadf");
   console.log(req.body.idOrder);
@@ -126,13 +127,17 @@ routerWeb.get("/deletesp/:id", async (req, res) => {
 routerWeb.get("/statistical", async (req, res) => {
   const product = await products.find({}).lean();
   let name = "";
-
+  // console.log(
+  //   await OrderDetail.find({
+  //     productId: "e3321660-a851-11eb-ab12-09e37d02ed6a",
+  //   })
+  // );
   product.forEach(async (item, index, array) => {
     let od = await OrderDetail.find({ productId: item.productId });
     let dem = 0;
     od.forEach((item1, index1) => {
       dem = dem + Number(item1.amount);
-      console.log(index1 + item1);
+      // console.log(index1 + item1);
     });
 
     Statistic.updateOne(
@@ -145,16 +150,70 @@ routerWeb.get("/statistical", async (req, res) => {
       },
       (err, doc) => {
         if (!err) {
-          console.log(dem);
+          // console.log(dem);
         } else {
           console.log("Edit Failed" + err.message);
         }
       }
     );
   });
-  const statistic = await Statistic.find({}).lean();
-  res.render("statistical", { statistic: statistic });
+  // tạo list
+  let statistic = await Statistic.find({}).lean();
+  console.log(statistic);
+  let listSta = {};
+  for (let i = 0; i < statistic.length; i++) {
+    let img = await products.findOne({ productId: statistic[i].productId });
+    listSta = {
+      image: img.image,
+      productId: statistic[i].productId,
+      name: statistic[i].name,
+      amount: statistic[i].amount,
+      sold: statistic[i].sold,
+      rest: statistic[i].rest,
+    };
+  }
+  // console.log(listSta);
+
+  // console.log(listSta);
+  res.render("statistical", {
+    data: [listSta],
+  });
+  // console.log(statistic);
+  //   console.log(orderDetail[0]._id);
 });
+
+// routerWeb.get("/statistical", async (req, res) => {
+//   const product = await products.find({}).lean();
+//   let name = "";
+
+//   product.forEach(async (item, index, array) => {
+//     let od = await OrderDetail.find({ productId: item.productId });
+//     let dem = 0;
+//     od.forEach((item1, index1) => {
+//       dem = dem + Number(item1.amount);
+//       console.log(index1 + item1);
+//     });
+
+//     Statistic.updateOne(
+//       { productId: item.productId },
+//       {
+//         $set: {
+//           sold: dem,
+//           rest: item.amount - dem,
+//         },
+//       },
+//       (err, doc) => {
+//         if (!err) {
+//           console.log(dem);
+//         } else {
+//           console.log("Edit Failed" + err.message);
+//         }
+//       }
+//     );
+//   });
+//   const statistic = await Statistic.find({}).lean();
+//   res.render("statistical", { statistic: statistic });
+// });
 
 routerWeb.get("/remove", async (req, res) => {
   const stt = await Statistic.findByIdAndDelete("60859a5b467cdf333ce976f4");

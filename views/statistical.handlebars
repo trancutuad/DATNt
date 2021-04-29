@@ -123,6 +123,7 @@
                     <thead>
                         <tr>
                             <th>Id sản phẩm</th>
+                            <th>Ảnh</th>
                             <th>Tên sản phẩm</th>
                             <th>Tổng số lượng</th>
                             <th>Số lượng đã bán</th>
@@ -130,20 +131,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                          
-                        {{# each statistic}}
-                        <tr>  
-                            <td>{{this.productId}}</td>
+                          
+                        {{# data}}
+                        <tr>  
+                            <td>{{productId}}</td>
+                            <td>
+                                <image src="http://localhost:8080/public/photo/{{image}}"
+                                    style="width: 50px; height: 50px">
+                                </image>
+                            </td>
+                            <td>{{name}}</td>
 
-                            <td>{{this.name}}</td>
+                            <td>{{amount}}</td>
 
-                            <td>{{this.amount}}</td>
-
-                            <td>{{this.sold}}</td>
-                            <td>{{this.rest}}</td>
+                            <td>{{sold}}</td>
+                            <td>{{rest}}</td>
 
                         </tr>
-                          {{/each}}
+                          {{/data}}
                     </tbody>
 
                 </table>

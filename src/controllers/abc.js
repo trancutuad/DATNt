@@ -204,6 +204,15 @@ exports.deleteProduct = function (request, response) {
     }
   });
 };
+exports.deleteUser = function (request, response) {
+  User.deleteOne({ _id: request.params.id }, (err, doc) => {
+    if (!err) {
+      response.redirect("/list_user");
+    } else {
+      console.log(err);
+    }
+  });
+};
 exports.deleteCate = function (request, response) {
   cate.deleteOne({ _id: request.params.id }, (err, doc) => {
     if (!err) {
