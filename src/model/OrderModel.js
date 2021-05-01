@@ -19,17 +19,17 @@ var OrdersSchema = new mongoose.Schema({
         type: String,
     },
     userId: {
-        type: String
+        type: String,
     },
     created_at: {
-        type: Date
+        type: String,
     },
     update_at: {
+        type: String,
+    },
+    delete_at:{
         type: Date
     },
-    // delete_at:{
-    //     type: Date
-    // },
 
 
 });

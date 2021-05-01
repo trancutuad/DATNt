@@ -9,7 +9,9 @@ routerProduct.get('/', product.list);
 routerProduct.use(AuthMiddleWare.isAuth);
 
 routerProduct.post('/add', product.add);
+
 routerProduct.get('/list', product.list);
+
 routerProduct.get('/new_list', product.newList);
 routerProduct.get('/list_paging', product.listPaging);
 routerProduct.get('/list/:id', product.listForCate);

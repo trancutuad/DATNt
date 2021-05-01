@@ -123,25 +123,29 @@
                 </div>
                 <div class="row m-2 border border-primary">
                     <div class="col-lg-8">
-                        <form method="post" class="was-validated m-2" action="/create_gift"
-                            enctype="multipart/form-data">
+                        <form method="POST" class="was-validated m-2" action="/create_gift">
                             <h4>Thêm gift code khuyến mãi</h4>
+
                             <div class="form-group">
-                                <input type="hidden" name="id" class="form-control" placeholder="Nhập Mã sản phẩm"
-                                    value="{{cate._id}}" required="">
+                                <input type="text" name="code" class="form-control" placeholder="Nhập codeGift" required="">
 
                             </div>
                             <div class="form-group">
-                                <label>Voucher:</label>
-                                <input type="phone" class="form-control" name="number" placeholder="Nhập Tên sản phẩm"
-                                    required>
+                                <input type="number" name="number" class="form-control" placeholder="Nhập number" required="">
+
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="id" class="form-control" placeholder="Nhập created_at"
+                                    value="{{gift.created_at}}" required="">
+
+                            </div>
+                            
+                            <div class="form-group">
+                                
                                 <div class="valid-feedback">Ok.</div>
+
                                 <div class="invalid-feedback">Nhập lại</div>
                             </div>
-
-
-
-
 
                             <button type="submit" class="btn btn-primary">Cập nhật</button>
                         </form>

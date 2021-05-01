@@ -61,11 +61,21 @@ routerWeb.get("/delete_cate/:id", abc.deleteCate);
 routerWeb.get("/delete_gift/:id", abc.deleteGift);
 routerWeb.get("/delete_users/:id", abc.deleteUser);
 routerWeb.post("/accept_order-details", (req, res1) => {
-  console.log("dfadf");
   console.log(req.body.idOrder);
   Orders.findOneAndUpdate(
     { idOrder: req.body.idOrder },
-    { status: "Accept" },
+    { status: "Đang giao hàng" },
+    (err, res) => {
+      res1.redirect("list_order");
+    }
+  );
+});
+//tuta
+routerWeb.post("/btn_success", (req, res1) => {
+  console.log(req.body.idOrder);
+  Orders.findOneAndUpdate(
+    { idOrder: req.body.idOrder },
+    { status: "Giao hàng thành công" },
     (err, res) => {
       res1.redirect("list_order");
     }
@@ -87,16 +97,17 @@ routerWeb.get("/add_gift", (req, res) => {
 routerWeb.get("/add_cate", (req, res) => {
   res.render("add_cate", { layout: false });
 });
-routerWeb.post("/create_gift", (req, res1) => {
-  console.log(req.body.number);
+
+routerWeb.post("/create_gift", (req, res) => {
+  console.log(req.body);
   let r = Math.random().toString(36).substring(7);
-  console.log("random", r);
+  // console.log("random", r);
   var gifts = gift();
   gifts.idGift = uuid.v1();
   const nDate = new Date().toLocaleString("en-US", {
     timeZone: "Asia/Ho_Chi_Minh",
   });
-  gifts.codeGift = r;
+  gifts.codeGift = req.body.code;
   // gift.amount = req.body.amount; // so luong gift
   gifts.number = req.body.number; // % giam
   // gift.expiration_at = req.body.expiration_at; // ngay het han
@@ -104,20 +115,19 @@ routerWeb.post("/create_gift", (req, res1) => {
   gifts.update_at = nDate;
   gift.create(gifts, (err, data) => {
     if (err) console.log(err);
-    res1.redirect("/list_gift");
+    res.redirect("/list_gift");
   });
 });
 
 routerWeb.get("/edit_product/:id", abc.getProduct);
 routerWeb.get("/edit_cate/:id", abc.getCate);
 
-
 routerWeb.get("/deletesp/:id", async (req, res) => {
   try {
     const stt = await Orders.findByIdAndDelete(req.params.id);
     let sanpham = await Orders.find({});
     try {
-      res.redirect("/list_order")
+      res.redirect("/list_order");
     } catch (e) {
       res.send("co loi xay ra", e.message);
     }
@@ -126,60 +136,35 @@ routerWeb.get("/deletesp/:id", async (req, res) => {
 
 routerWeb.get("/statistical", async (req, res) => {
   const product = await products.find({}).lean();
-  let name = "";
-  // console.log(
-  //   await OrderDetail.find({
-  //     productId: "e3321660-a851-11eb-ab12-09e37d02ed6a",
-  //   })
-  // );
-  product.forEach(async (item, index, array) => {
-    let od = await OrderDetail.find({ productId: item.productId });
+  let listSta = {};
+  let arrList = [];
+  for (let i = 0; i < product.length; i++) {
+    console.log(product[i]);
+    let od = await OrderDetail.find({ productId: product[i].productId });
+    console.log(od);
     let dem = 0;
     od.forEach((item1, index1) => {
       dem = dem + Number(item1.amount);
       // console.log(index1 + item1);
     });
-
-    Statistic.updateOne(
-      { productId: item.productId },
-      {
-        $set: {
-          sold: dem,
-          rest: item.amount - dem,
-        },
-      },
-      (err, doc) => {
-        if (!err) {
-          // console.log(dem);
-        } else {
-          console.log("Edit Failed" + err.message);
-        }
-      }
-    );
-  });
-  // tạo list
-  let statistic = await Statistic.find({}).lean();
-  console.log(statistic);
-  let listSta = {};
-  for (let i = 0; i < statistic.length; i++) {
-    let img = await products.findOne({ productId: statistic[i].productId });
+    // console.log(dem);
     listSta = {
-      image: img.image,
-      productId: statistic[i].productId,
-      name: statistic[i].name,
-      amount: statistic[i].amount,
-      sold: statistic[i].sold,
-      rest: statistic[i].rest,
+      image: product[i].image,
+      productId: product[i].productId,
+      name: product[i].name,
+      amount: Number(product[i].amount) + dem,
+      sold: dem,
+      rest: product[i].amount,
     };
+    arrList.push(listSta);
   }
-  // console.log(listSta);
 
-  // console.log(listSta);
+  console.log("List");
+  console.log(arrList.size);
+  // tạo list
   res.render("statistical", {
-    data: [listSta],
+    data: arrList,
   });
-  // console.log(statistic);
-  //   console.log(orderDetail[0]._id);
 });
 
 // routerWeb.get("/statistical", async (req, res) => {
@@ -301,8 +286,8 @@ routerWeb.post("/update_product", uploadDefault.single("file"), (req, res) => {
       $set: {
         name: req.body.name,
         price: req.body.price,
-        amount:req.body.amount,
-        size:req.body.size,
+        amount: req.body.amount,
+        size: req.body.size,
         description: req.body.description,
         image: image,
         cateId: req.body.cateId,
@@ -320,7 +305,7 @@ routerWeb.post("/update_product", uploadDefault.single("file"), (req, res) => {
     { productId: req.body.productId },
     {
       $set: {
-        amount:Number(req.body.amount),
+        amount: Number(req.body.amount),
       },
     },
     (err, doc) => {

@@ -39,6 +39,29 @@
         );
     }
 
+     //tuan anh
+     exports.updateProfire =  (id,phone,address,username,callback)=>{
+        console.log("up:id " +id);
+        console.log("up:phone " +phone);
+        console.log("up:address " +address);
+        console.log("up:username " +username);
+        user.updateOne(
+            {userId: id},
+            { $set: {
+                phone : phone,
+                address: address,
+                username: username
+            }},
+            (err, res) => {
+                if (!err) {
+                   callback(err,null)
+                } else {
+                    callback(null,res)
+                }
+            }
+        );
+    }
+
     exports.updateUser = function (query, data, options, callback) {
         user.findOneAndUpdate(query, data, options, (err, response) => {
             callback(err, response);

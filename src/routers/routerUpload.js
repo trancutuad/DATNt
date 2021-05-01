@@ -42,6 +42,8 @@ routerUser.get('/', async  function (req, res, next) {
     await res.sendFile(reqPath);
 });
 routerUser.post('/photo',uploadDefault.single("file"), upload.uploadPhoto);
+
+
 routerUser.post('/photos', uploadDefault.array("files", 10), upload.uploadPhotos);
 routerUser.post('/photos-banner', uploadDefault.array("files", 10), upload.uploadPhotosBanner);
 

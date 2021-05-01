@@ -126,12 +126,12 @@
                             <th>Id Orders</th>
                             <th>Total Amount</th>
                             <th>Price</th>
-                            <th>Addres</th>
-                            <th>status</th>
+                            <th>Purchase Time</th>
+                            <th>Status</th>
                             <th>Phone</th>
                             <th>Address</th>
                             <th>User</th>
-                            <th></th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -142,11 +142,14 @@
                         <td>{{totalAmount}}</td>
                         <td>{{totalPrice}}</td>
                         <td>{{created_at}}</td>
-                        <script>
+                        
+                        {{!-- tuta --}}
+                    <script>
                             var color = "";
-                            "{{status}}" === "Accept" ? color = "green" : color = "black";
+                            "{{status}}" === "Giao hàng thành công" ? color = "green" : color = "black";
                             var str = `<td style="color: ${color}">{{status}}</td>`;
                         </script>
+
                         <script>
                             document.write(str);
                         </script>
@@ -157,25 +160,45 @@
                           {{/each}}
 
                         <td>
-                            <a class="btn btn-outline-primary mr-2" href="/get_order-details/{{idOrder}}">Details</a>
+                            <a class="btn btn-primary" href="/get_order-details/{{idOrder}}">Chi tiết đơn hàng</a>
 
                             <script>
                                 var type = "";
-                                "{{status}}" === "Accept" ? type = "hidden" : type = "";
-                                var str1 = `<form ${type}>
-                                <input formmethod="get" formaction="/deletesp/{{this._id}}" class="btn btn-danger" type="submit"
-            onclick="return confirm('có chắc chắn xóa')" value="Delete">
-            </form>`
-                                var str2 = `<form ${type} action="/accept_order-details" method="post">
+                                
+                                //xac nhan don hang "{{status}}" === "Accept" ? type = "hidden" : type = "";
+
+                                "{{status}}" === "Giao hàng thành công" ? type = "hidden" : type = "";
+                                var str1 = `<form ${type} action="/accept_order-details" method="post">
                             <input type="hidden" name="idOrder" value="{{idOrder}}">
-                            <button type="submit"  class="btn btn-outline-success">Accept</button>
+                            <input type="submit" onclick="return confirm('có chắc chắn xác nhận đơn hàng sang trạng thái đang giao hàng không')" value="Xác nhận đơn hàng"  class="btn btn-outline-primary mr-0"></input>
+
                         </form>`
-                            </script>
-                            <script>
-                                document.write(str1);
-                                document.write(str2);
+
+                            //giao hang thanh cong
+
+                            var str2 = `<form ${type} 
+                            "{{status}}" === "Đang giao hàng" ? type = "hidden" : type = "";
+                            action="/btn_success" method="post">
+                                    <input type="hidden" name="idOrder" value="{{idOrder}}">
+                                    <input type="submit" onclick="return confirm('có chắc chắn đang giao hàng')" value="Giao hàng thành công"  class="btn btn-outline-success"></input>
+
+                                </form>`
+
+                         //xoa don hang
+                       
+                                var str3 = `<form ${type}>
+                                <input formmethod="get" formaction="/deletesp/{{this._id}}" class="btn btn-danger" type="submit"
+                            onclick="return confirm('có chắc chắn xóa')" value="xóa sản phẩm">
+                            </form>`
 
                             </script>
+                            <script>
+                             document.write(str1);
+                                document.write(str2);
+                                document.write(str3);
+                       
+                            </script>
+
                             <!--                        <a ="hidden" class="btn btn-outline-danger" href="#">Cancel</a>-->
                         </td>
                         </tr>

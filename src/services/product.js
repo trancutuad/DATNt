@@ -33,14 +33,43 @@
         const nDate = new Date().toLocaleString('en-US', {
             timeZone: 'Asia/Ho_Chi_Minh'
         });
-
+        // console.log(query);
         // cate.deleteOne(query,callback);
-        await product.findOneAndUpdate({productId: query}, {delete_at: nDate}, (err, response) => {
+        // await product.findOneAndUpdate({productId: query}, {delete_at: nDate}, (err, response) => {
 
+        //     callback(err, response);
+
+        // });
+        var amount =await product.findOne({productId:query.productId});
+        console.log(amount);
+        await product.updateOne(
+            { productId: query.productId },
+            {
+              $set: {
+                amount: String(Number(amount.amount)- query.amount),
+              },
+            },
+            (err, doc) => {
+              if (!err) {
+                  console.log("update thành công");
+                //   console.log(product.find());
+              } else {
+                console.log("Edit Failed" + err.message);
+              }
+            }
+          );
+    
+    };
+    exports.findProduct = async function(query, callback){
+        const nDate = new Date().toLocaleString('en-US', {
+            timeZone: 'Asia/Ho_Chi_Minh'
+        });
+        await product.findOneAndUpdate({productId: query}, {delete_at: nDate}, (err, response) => {
+            console.log(product.find());
             callback(err, response);
 
         });
-    };
+    }
     exports.selectAll = async function (callback) {
         const dataProduct = product.find({
             delete_at: null

@@ -14,10 +14,6 @@ var GiftsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    amount: {
-        type: String,
-        // required: true,
-    },
     created_at: {
         type: Date
     },
@@ -30,7 +26,6 @@ var GiftsSchema = new mongoose.Schema({
     // delete_at:{
     //     type: Date
     // },
-
 
 });
 var GiftsModel = mongoose.model('Gifts', GiftsSchema);

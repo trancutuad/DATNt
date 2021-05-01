@@ -13,6 +13,12 @@ var OrderDetailsSchema = new mongoose.Schema({
     size: {
         type: String,
     },
+    products: {
+        type: String,
+    },
+    image: {
+        type: String,
+    },
     price: {
         type: String,
     },
@@ -21,14 +27,14 @@ var OrderDetailsSchema = new mongoose.Schema({
 
     },
     created_at: {
-        type: Date
+        type: String,
     },
     update_at: {
+        type: String,
+    },
+    delete_at:{
         type: Date
     },
-    // delete_at:{
-    //     type: Date
-    // },
 
 
 });

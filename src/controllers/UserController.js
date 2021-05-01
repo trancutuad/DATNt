@@ -48,8 +48,43 @@ exports.create = function (req, res, next) {
     }
   });
 };
+
+
+//tuan anh
+exports.changeProfile = (req, res, next) => {
+  console.log(req.body.userId);
+  console.log(req.body.phone);
+  console.log(req.body.address);
+  console.log(req.body.username);
+userService.findUser(req.body.userId, (err, user) => {
+
+  if (err) return res.status(401).json(err);
+  
+  userService.updateProfire(user.userId,req.body.phone,req.body.address,req.body.username , (err, result) => {
+    if (err) {
+      res
+        .status(404)
+        .send({
+          statusCode: res.statusCode,
+          err: "Có lỗi xảy ra ! " + err,
+        });
+    } else {
+      res
+        .status(200)
+        .send({
+          statusCode: res.statusCode,
+          data: "Đổi thông tin thành công ! ",
+        });
+    }
+  });
+  // return res.status(200).json({ statusCode: res.statusCode, data: user });
+});
+};
+
 exports.login = (req, res, next) => {
+  
   console.log("user login " + req.body.email);
+
   User.findOne({ email: req.body.email }).exec(function (err, user) {
     if (err) return res.json(err);
 
@@ -93,6 +128,7 @@ exports.profile = (req, res, next) => {
     return res.status(200).json({ statusCode: res.statusCode, data: response });
   });
 };
+
 exports.changePassword = (req, res, next) => {
   console.log(req.body.newPassword);
   console.log(req.body.oldPassword);

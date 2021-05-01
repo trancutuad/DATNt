@@ -1,8 +1,10 @@
 const banners = require('../model/BannerModel')
 const uuid = require('uuid');
+
 const uploadPhoto = (req, res) => {
-    uploadPhotos(req, res);
-    const file = req.file;
+    // uploadPhotos(req, res);
+    const file = req.files;
+    console.log(file.filename);
     if (!file) {
         return res.json({status: false, mgs: "Không có file"});
     }
@@ -10,7 +12,6 @@ const uploadPhoto = (req, res) => {
         status: true,
         data: file
     });
-
 
 };
 const uploadPhotos = (req, res) => {

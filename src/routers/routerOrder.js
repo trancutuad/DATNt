@@ -11,8 +11,16 @@ routerOrders.get('/', function (req, res, next) {
 routerOrders.use(AuthMiddleWare.isAuth);
 
 routerOrders.post('/add',orders.addOrder);
+
 routerOrders.post('/gift',orders.addGift);
+
 routerOrders.get('/check_gift/:id',orders.checkGift);
+
+//tuta
+routerOrders.get('/list/:id', orders.listOderDetail);
+
+//tuta
+routerOrders.get('/listbill/:id', orders.billOrderDetail);
 
 
 module.exports = routerOrders;
