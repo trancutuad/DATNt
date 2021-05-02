@@ -34,8 +34,10 @@ exports.addOrder = function  (req, response, next) {
     order.totalPrice = orderReq.totalPrice;
     order.status = "Chờ xác nhận";
     order.userId = req.userId;
-    order.created_at = nDate;
-    order.update_at = nBuyDate;
+    order.created_at = orderReq.created_at;
+    order.update_at = orderReq.update_at;
+
+    console.log(orderReq.update_at)
 
 
     Orders.create(order, (err, res) => {

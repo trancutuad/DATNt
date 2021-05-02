@@ -28,7 +28,7 @@ var OrdersSchema = new mongoose.Schema({
         type: String,
     },
     delete_at:{
-        type: Date
+        type: String,
     },
 
 

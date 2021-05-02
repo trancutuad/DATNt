@@ -38,8 +38,9 @@ exports.addReview = function (req, res, next) {
     review.reviewId = uuid.v1();
     review.userId = req.userId;
 
-    review.created_at = nDate;
+    review.created_at = req.body.created_at;
     review.update_at = nDate;
+    console.log(req.body.created_at);
     productService.createReview(review, function (error, response) {
         if (response) {
             res.status(201).send({statusCode: res.statusCode, mess: 'Thanh cong! '});
