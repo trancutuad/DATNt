@@ -25,10 +25,10 @@ var ReviewSchema = new mongoose.Schema({
         type: String, ref: "User"
     },
     created_at: {
-        type: Date
+        type: String,
     },
     update_at: {
-        type: Date
+        type: String,
     },
     // delete_at:{
     //     type: Date

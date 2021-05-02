@@ -149,6 +149,7 @@
                     // update_at: 1,
                     "reviews.comment": 1,
                     "reviews.userId": 1,
+                    "reviews.created_at": 1,
                     "reviews.rate": 1,
                     "reviews.reviewId": 1,
                 },

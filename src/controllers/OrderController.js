@@ -16,8 +16,11 @@ exports.addOrder = function  (req, response, next) {
     // });
 
     var today = new Date();
+    // var nDate =  today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear() + " / " + today.getHours() +":" + today.getMinutes();
     var nDate =  today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear() + " / " + today.getHours() +":" + today.getMinutes() ;
     var nBuyDate =  (today.getDate()+3) +'-'+(today.getMonth()+1) +'-'+today.getFullYear();
+    console.log(nDate);
+    console.log(nBuyDate);
 
 
     var orderReq = JSON.parse(req.body.order);
